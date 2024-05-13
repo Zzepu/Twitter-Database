@@ -544,8 +544,44 @@ VALUES
 (2,5),
 (3,5);
 
+-- Creando consultas simples para investigar que datos contiene
+SELECT
+	follower_id
+    , following_id
+FROM followers;
 
+SELECT
+	follower_id
+FROM followers
+WHERE following_id = 1;
 
+SELECT
+	COUNT(follower_id) AS followers
+FROM followers
+WHERE following_id = 1;
 
+-- Sobre la misma dinamica creare consultas mas complejas, como por ej.
+
+-- Top 3 usuarios con mayor numero de seguidores
+SELECT
+	following_id
+    , COUNT(follower_id) as followers
+FROM followers
+GROUP BY following_id
+ORDER BY followers DESC
+LIMIT 3;
+
+-- Usamos JOIN para traer aun mas informacion desde la tabla "users"
+SELECT
+	u.user_id
+    , u.user_handle
+    , u.first_name
+	, following_id
+    , COUNT(follower_id) as followers
+FROM followers
+JOIN users u ON u.user_id = followers.following_id
+GROUP BY following_id
+ORDER BY followers DESC
+LIMIT 3;
 
 
